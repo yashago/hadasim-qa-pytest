@@ -8,4 +8,5 @@ def get_mode():
 def test_mode_can_be_overridden(monkeypatch):
     monkeypatch.setenv("QA_MODE", "test")
     print(f"QA_MODE: {os.getenv('QA_MODE')}")
+    monkeypatch.setattr()
     assert get_mode() == "test"
