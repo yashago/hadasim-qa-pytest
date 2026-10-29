@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pytest tests/test_product_service.py -q)"
+    ]
+  }
+}
