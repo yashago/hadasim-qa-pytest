@@ -1,6 +1,6 @@
 import pytest
 
-from calculator import add, divide, modulo, multiply, power, subtract
+from src.calculator import add, divide, modulo, multiply, power, subtract
 
 @pytest.mark.parametrize("a, b, expected", [
     (2, 3, 5),

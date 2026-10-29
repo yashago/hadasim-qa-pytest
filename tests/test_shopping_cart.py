@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from shopping_cart import (
+from src.shopping_cart import (
     add_to_cart, # type: ignore
     calculate_total, # pyright: ignore[reportUnknownVariableType]
     clear_cart, # pyright: ignore[reportUnknownVariableType]
@@ -67,7 +67,7 @@ def test_negative_quantity_is_rejected(cart, product_catalog):
 def test_currency_from_environment(monkeypatch):
     monkeypatch.setenv("CURRENCY", "EUR")
 
-    from shopping_cart import get_currency  # pyright: ignore[reportAttributeAccessIssue, reportUnknownVariableType]
+    from src.shopping_cart import get_currency  # pyright: ignore[reportAttributeAccessIssue, reportUnknownVariableType]
 
     assert get_currency() == "EUR"
 
