@@ -1,5 +1,5 @@
 import pytest
-from app import product_service
+from ..ProjectB.tests import product_service
 
 
 def test_returns_title_when_dependency_succeeds(monkeypatch):
