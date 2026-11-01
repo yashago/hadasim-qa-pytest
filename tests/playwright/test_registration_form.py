@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, expect
 
-LOCAL_FORM_URL = "C:/Users/Jacob/Desktop/QA/Python/Playwright/playwright_registration_form.html"
-FILE_PATH = f"file:///{LOCAL_FORM_URL}"
+GITHUB_FORM_URL = "https://github.com/yashago/hadasim-qa-pytest/blob/9bcef875b222092b4f32c3599b7773e5d1aca48b/tests/playwright/src/playwright_registration_form.html"
+FILE_PATH = f"https://htmlpreview.github.io/?{GITHUB_FORM_URL}"
 
 def test_registration_form(page: Page):
     # Navigate to the local registration form
