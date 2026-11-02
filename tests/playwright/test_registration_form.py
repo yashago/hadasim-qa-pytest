@@ -1,4 +1,5 @@
 from playwright.sync_api import Page, expect
+from tests.playwright.consts import REGISTRATION_FORM
 
 GITHUB_FORM_URL = "https://github.com/yashago/hadasim-qa-pytest/blob/9bcef875b222092b4f32c3599b7773e5d1aca48b/tests/playwright/src/playwright_registration_form.html"
 FILE_PATH = f"https://htmlpreview.github.io/?{GITHUB_FORM_URL}"
@@ -14,9 +15,14 @@ def test_registration_form(page: Page):
     #validateResetForm(page)
     #fillInFullForm(page)
     #validateSubmitForm(page)
-
-    
     pass
+
+def test_header(page: Page):
+    page.goto(FILE_PATH)
+    # testRegistrationLink(page)
+    # testPreferencesLink(page)
+    testHelpLink(page)
+    # testPlaywrightDocsLink(page)
 
 def fillInFullForm(page):
     #TODO: Fill in the first name
@@ -76,4 +82,30 @@ def fillInDateOfBirth(page, dateOfBirth):
     datePicker.fill(dateOfBirth)
     datePicker.scroll_into_view_if_needed()
     datePicker.highlight()  
-    
+
+def testRegistrationLink(page):
+    registrationLink = page.get_by_role("link", name="Registration")
+    registrationLink.scroll_into_view_if_needed()
+    registrationLink.highlight()
+    registrationLink.click()
+    printAccessibilityTree(page)
+
+    dialog = page.get_by_role("dialog", name="Help")
+    expect(dialog).to_be_visible()
+
+
+def testHelpLink(page):
+    helpLink = page.get_by_role("link", name="Help")
+    helpLink.scroll_into_view_if_needed()
+    helpLink.highlight()
+    helpLink.click()
+
+    printAccessibilityTree(page)
+    dialog = page.get_by_role("dialog", name=REGISTRATION_FORM["modalHeaderText"])
+    expect(dialog).to_be_visible()
+    expect(dialog.get_by_role("heading", level=2, name=REGISTRATION_FORM.get("modalHeaderText"))).to_be_visible()
+
+    dialogOkButton = dialog.get_by_role("button", name=REGISTRATION_FORM.get("modalButtonText"))
+    expect(dialogOkButton).to_be_visible()
+    expect(dialogOkButton).to_be_enabled()
+    dialogOkButton.click()
