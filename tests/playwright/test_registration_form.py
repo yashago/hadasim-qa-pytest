@@ -1,18 +1,14 @@
 from playwright.sync_api import Page, expect
-from tests.playwright.consts import REGISTRATION_FORM
-
-GITHUB_FORM_URL = "https://github.com/yashago/hadasim-qa-pytest/blob/9bcef875b222092b4f32c3599b7773e5d1aca48b/tests/playwright/src/playwright_registration_form.html"
-FILE_PATH = f"https://htmlpreview.github.io/?{GITHUB_FORM_URL}"
+from tests.playwright.consts import FILE_PATH, REGISTRATION_FORM
 
 def test_registration_form(page: Page):
     # Navigate to the local registration form
     page.goto(FILE_PATH)
-    printAccessibilityTree(page)
 
     page.pause()
 
     fillInFullForm(page)
-    #validateResetForm(page)
+    validateResetForm(page)
     #fillInFullForm(page)
     #validateSubmitForm(page)
     pass
@@ -26,10 +22,10 @@ def test_header(page: Page):
 
 def fillInFullForm(page):
     #TODO: Fill in the first name
-    fillInFirstName(page, "John")
+    fillInFirstName(page, REGISTRATION_FORM.get("formFirstName"))
 
     #TODO: Fill in the last name
-    # fillInLastName(page, "Doe")
+    fillInLastName(page, REGISTRATION_FORM.get("formLastName"))
 
     #TODO: Fill in the email
     # fillInEmail(page, "your@email.com")
@@ -44,7 +40,7 @@ def fillInFullForm(page):
     # fillInPhoneNumber(page, "+972-54-4746095")
 
     #TODO: Fill in the date of birth
-    fillInDateOfBirth(page, "1990-01-01")
+    fillInDateOfBirth(page, "1984-03-03")
 
     #TODO: Select the country
     # selectCountry(page, "United States")
@@ -53,7 +49,26 @@ def fillInFullForm(page):
     # fillInCity(page, "Beer-Sheva")
 
     #TODO: Select the gender
-    # selectGender(page, "Female")
+    selectGender(page, REGISTRATION_FORM.get("formGender"))
+
+def validateResetForm(page):
+    resetButton = page.get_by_role("button", name="Reset")
+    resetButton.scroll_into_view_if_needed()
+    resetButton.highlight()
+    resetButton.click()
+    page.get_by_text(REGISTRATION_FORM.get("resetConfirmationText")).wait_for(state="visible")
+    page.get_by_text(REGISTRATION_FORM.get("resetConfirmationText")).wait_for(state="hidden")
+    
+
+    # Validate that the form fields are reset
+    firstNameField = page.get_by_role("textbox", name="First name")
+    expect(firstNameField).to_be_empty()
+
+    dateOfBirthField = page.get_by_label("Date of birth")
+    expect(dateOfBirthField).to_be_empty()
+
+    genderRadioButtons = page.get_by_role("radio", name=REGISTRATION_FORM.get("formGender"))
+    expect(genderRadioButtons).not_to_be_checked()
 
 def printAccessibilityTree(page):
     pageAccesibility = page.locator("body").aria_snapshot()
@@ -61,20 +76,33 @@ def printAccessibilityTree(page):
 
 def fillInFirstName(page, firstName):
     #By role, preferred method
-    page.get_by_role("textbox", name="First name").fill("John")
-    
-    #By label, preferred method
-    page.get_by_label("First name").fill("Doe")
+    print(f"Filling in first name: {firstName}")
+    page.get_by_role("textbox", name="First name").fill(firstName)
 
-    #By placeholder, good option if the placeholder is unique and descriptive
-    page.get_by_placeholder("e.g. Alex").fill("John")
+def fillInLastName(page, lastName):
+    #By role, preferred method
+    print(f"Filling in last name: {lastName}")
+    page.get_by_role("textbox", name="Last name").fill(lastName)
 
-    #By locator, good option if the locator is unique and descriptive
-    page.locator("#firstName").fill("Doe")
+def fillInEmail(page, email):
+    #By role, preferred method
+    print(f"Filling in email: {email}")
+    page.get_by_role("textbox", name="Email").fill(email)
 
-    #By locator, Usually unnecessary
-    page.locator('input[id="firstName"]').fill("John")
-    page.fill('input[name="firstName"]', "Doe")
+def fillInEmailConfirmation(page, emailConfirmation):
+    #By role, preferred method
+    print(f"Filling in email confirmation: {emailConfirmation}")
+    page.get_by_role("textbox", name="Confirm email").fill(emailConfirmation)
+
+def fillInPassword(page, password):
+    #By role, preferred method
+    print(f"Filling in password: {password}")
+    page.get_by_role("textbox", name="Password").fill(password)
+
+def fillInPhoneNumber(page, phoneNumber):
+    #By role, preferred method
+    print(f"Filling in phone number: {phoneNumber}")
+    page.get_by_role("textbox", name="Phone number").fill(phoneNumber)
 
 def fillInDateOfBirth(page, dateOfBirth):
     #By label, preferred method
@@ -97,6 +125,7 @@ def testRegistrationLink(page):
 def testHelpLink(page):
     helpLink = page.get_by_role("link", name="Help")
     helpLink.scroll_into_view_if_needed()
+    page.pause()
     helpLink.highlight()
     helpLink.click()
 
@@ -109,3 +138,9 @@ def testHelpLink(page):
     expect(dialogOkButton).to_be_visible()
     expect(dialogOkButton).to_be_enabled()
     dialogOkButton.click()
+
+def selectGender(page, gender):
+    #By label, preferred method
+    genderRadioButtons = page.get_by_role("radio", name=gender)
+    genderRadioButtons.scroll_into_view_if_needed()
+    genderRadioButtons.check()
