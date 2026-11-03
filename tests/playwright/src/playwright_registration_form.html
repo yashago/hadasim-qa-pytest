@@ -25,7 +25,7 @@ button{border:0;border-radius:7px;padding:11px 17px;cursor:pointer;font-weight:7
 <body>
 <header><strong>QA Practice Portal</strong>
 <nav aria-label="Main navigation">
-<a href="#registration">Registration</a><a href="#preferences">Preferences</a><a href="#help" id="helpLink">Help</a>
+<a href="#registration">Registration</a><a href="#preferences">Preferences</a><a href="#help" id="helpLink">Help</a><a href="#native-dialog" id="nativeDialogLink">Native confirm dialog</a>
 <a href="https://playwright.dev/" target="_blank" rel="noopener">Playwright documentation</a>
 </nav></header>
 <main>
@@ -62,7 +62,7 @@ button{border:0;border-radius:7px;padding:11px 17px;cursor:pointer;font-weight:7
 <label><input type="checkbox" name="topics" value="manual"> Manual QA</label><label><input type="checkbox" name="topics" value="automation"> Test automation</label><label><input type="checkbox" name="topics" value="api"> API testing</label><label><input type="checkbox" name="topics" value="mobile"> Mobile testing</label><label><input type="checkbox" name="topics" value="performance"> Performance testing</label>
 </div></fieldset>
 <fieldset class="field full"><legend>Preferred contact method</legend><div class="choices">
-<label><input type="radio" name="contactMethod" value="email"> Email</label><label><input type="radio" name="contactMethod" value="phone"> Phone</label><label><input type="radio" name="contactMethod" value="none"> Do not contact me</label>
+<label><input type="radio" name="contactMethod" value="email" checked> Email</label><label><input type="radio" name="contactMethod" value="phone"> Phone</label><label><input type="radio" name="contactMethod" value="none"> Do not contact me</label>
 </div></fieldset>
 <div class="field full"><label class="checkline"><input id="newsletter" name="newsletter" type="checkbox"> Subscribe to the monthly QA newsletter</label>
 <label class="checkline"><input id="terms" name="terms" type="checkbox" required> I agree to the terms and conditions *</label></div>
@@ -133,6 +133,11 @@ form.addEventListener('reset',()=>{
 
 document.getElementById('closeDialog').addEventListener('click',()=>confirmationDialog.close());
 document.getElementById('helpLink').addEventListener('click',event=>{event.preventDefault();helpDialog.showModal();});
+document.getElementById('nativeDialogLink').addEventListener('click',event=>{
+  event.preventDefault();
+  const accepted=window.confirm('This is a native browser confirm dialog. Do you want to continue?');
+  status.textContent=accepted ? 'You selected OK in the native dialog.' : 'You selected Cancel in the native dialog.';
+});
 document.getElementById('closeHelp').addEventListener('click',()=>helpDialog.close());
 </script>
 </body></html>
