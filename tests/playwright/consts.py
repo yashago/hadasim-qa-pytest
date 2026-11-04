@@ -6,6 +6,8 @@ REGISTRATION_FORM = {
     "modalButtonText": "Got it",
     "formFirstName": "Jacob",
     "formLastName": "Gontmacher",
+    "formEmail": "Email address *",
     "formGender": "Female",
+    "formInterest": "Test automation",
     "resetConfirmationText": "The form has been reset. All fields are cleared."
 }
