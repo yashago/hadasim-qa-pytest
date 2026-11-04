@@ -31,6 +31,7 @@ env/
 .eggs/
 build/
 dist/
+test-resuls/
 
 # Testing / tooling caches
 .pytest_cache/
