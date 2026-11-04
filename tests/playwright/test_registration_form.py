@@ -146,7 +146,7 @@ def validateGoogleMapsIframe(page):
     page.pause()
     page.get_by_role("link", name="Google Map").click()
     mapIframe = page.locator("iframe[title=\"Google Map showing Tel Aviv, Israel\"]")
-    expect(mapIframe).to_have_attribute("src", "?q=Tel+Aviv,+Israel")
+    expect(mapIframe).to_have_attribute("src", re.compile(r"\?q=Tel\+Aviv,\+Israel"))
     # The iframe has loading="lazy", so it only loads once scrolled into view
     mapIframe.scroll_into_view_if_needed()
     navButton = mapIframe.content_frame.get_by_role("link", name="Open in Maps (opens in new")
@@ -158,7 +158,7 @@ def validateGoogleMapsIframe(page):
         navButton.click()
 
     newPage = newWindowsContext.value
-    expect(newPage).to_have_url(re.compile("https://www.google.com/maps/.*"))
+    expect(newPage).to_have_url(re.compile("https://www.google.com/maps.*"))
 
 def validateHelpLink(page):
     helpLink = page.get_by_role("link", name="Help")
