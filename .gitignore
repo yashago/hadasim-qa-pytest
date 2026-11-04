@@ -32,6 +32,7 @@ env/
 build/
 dist/
 test-resuls/
+screenshots/
 
 # Testing / tooling caches
 .pytest_cache/
