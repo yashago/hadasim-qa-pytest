@@ -25,13 +25,13 @@ def test_registration_form(page: Page, request):
 def test_header(page: Page):
     page.goto(FILE_PATH)
     # testRegistrationLink(page)
-    # testPreferencesLink(page)
+    # validatePreferencesLink(page)
     validateGoogleMapsIframe(page)
     # validateHelpLink(page)
     # confirmNativeDialog(page)
     # testPlaywrightDocsLink(page)
 
-def testPreferencesLink(page):
+def validatePreferencesLink(page):
     preferencesLink = page.get_by_role("link", name="Preferences")
     page.pause()
     preferencesLink.click()
@@ -211,7 +211,7 @@ def readDialogMessageAndDismiss(dialog):
     print('Dismissing the dialog')
     dialog.dismiss()
 
-def testPlaywrightDocsLink(page):
+def validatePlaywrightDocsLink(page):
     page.pause()
     with page.expect_popup() as newWindowsContext:
         page.get_by_role("link", name="Playwright documentation").click()

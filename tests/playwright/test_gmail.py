@@ -7,3 +7,4 @@ from registration_page import RegistrationPage
 
 
 def test_gmail(page: Page, request):
+    pass
